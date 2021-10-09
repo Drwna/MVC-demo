@@ -70,7 +70,7 @@ body > .page > section{
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 1s;
+    transition: transform 1s;
 }
 
 #app3 .square.active{
@@ -88,8 +88,8 @@ body > .page > section{
 }
 
 #app4 .circle {
-    width: 30vw;
-    height: 30vw;
+    width: 25vw;
+    height: 25vw;
     border-radius: 50%;
     border: 1px solid red;
 }

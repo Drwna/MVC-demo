@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 1s;
+    transition: transform 1s;
 }
 
 #app3 .square.active{
