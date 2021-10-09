@@ -1,0 +1,4 @@
+```
+parcel src/index
+
+```
