@@ -1,4 +1,4 @@
 ```
-parcel src/index
+parcel src/index.html
 
 ```
