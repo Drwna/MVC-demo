@@ -103,9 +103,83 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"1AQo":[function(require,module,exports) {
+})({"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
 
-},{}],"cCJ/":[function(require,module,exports) {
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    link.remove();
+  };
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\bundle-url.js"}],"reset.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"global.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"app1.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\node_modules\\process\\browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -292,7 +366,7 @@ process.chdir = function (dir) {
 process.umask = function () {
     return 0;
 };
-},{}],"or5c":[function(require,module,exports) {
+},{}],"..\\node_modules\\jquery\\dist\\jquery.js":[function(require,module,exports) {
 var global = arguments[3];
 var process = require("process");
 var define;
@@ -11178,7 +11252,95 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
-},{"process":"cCJ/"}],"U+s5":[function(require,module,exports) {
+},{"process":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\node_modules\\process\\browser.js"}],"base\\Model.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Model = function () {
+    function Model(options) {
+        var _this = this;
+
+        _classCallCheck(this, Model);
+
+        var optionsArray = ['data', 'update', 'create', 'delete', 'get'];
+        optionsArray.forEach(function (key) {
+            if (key in options) {
+                _this[key] = options[key];
+            }
+        });
+        // this.data = options.data
+        // this.create = options.create
+        // this.delete = options.delete
+        // this.update = options.update
+        // this.get = options.get
+    }
+
+    _createClass(Model, [{
+        key: 'create',
+        value: function create() {
+            //console?.error?.('还没有实现 create') // 可选链
+            console && console.error && console.error('还没有实现 create');
+        }
+    }, {
+        key: 'delete',
+        value: function _delete() {
+            // console?.error?.('还没有实现 delete')
+            console && console.error && console.error('还没有实现 delete');
+        }
+    }, {
+        key: 'update',
+        value: function update() {
+            // console?.error?.('还没有实现 updata')
+            console && console.error && console.error('还没有实现 update');
+        }
+    }, {
+        key: 'get',
+        value: function get() {
+            // console?.error?.('还没有实现 get')
+            console && console.error && console.error('还没有实现 get');
+        }
+    }]);
+
+    return Model;
+}();
+
+exports.default = Model;
+},{}],"base\\view.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var View = function View(_ref) {
+    var el = _ref.el,
+        html = _ref.html,
+        render = _ref.render;
+
+    _classCallCheck(this, View);
+
+    this.el = (0, _jquery2.default)(el);
+    this.html = html;
+    this.render = render;
+};
+
+exports.default = View;
+},{"jquery":"..\\node_modules\\jquery\\dist\\jquery.js"}],"app1.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11191,13 +11353,22 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _Model = require('./base/Model.js');
+
+var _Model2 = _interopRequireDefault(_Model);
+
+var _view = require('./base/view');
+
+var _view2 = _interopRequireDefault(_view);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var eventBus = (0, _jquery2.default)({});
 // console.log(eventBus.on);
 // console.log(eventBus.trigger);
 // 视图相关 都放到 m
-var m = {
+
+var m = new _Model2.default({
     data: {
         n: parseInt(localStorage.getItem('n'))
     },
@@ -11206,32 +11377,57 @@ var m = {
         eventBus.trigger('m:updated');
         localStorage.setItem('n', m.data.n);
     }
-};
+});
+
+console.dir(m);
 
 // 数据相关 都放到 v
-var v = {
-    el: null,
-    html: '\n      <div>\n            <div class="output">\n                <span id="number">{{n}}</span>\n            </div>\n            <div class="actions">\n                <button id="add1">+1</button>\n                <button id="minus1">-1</button>\n                <button id="mul2">*2</button>\n                <button id="divide2">\xF72</button>\n            </div>\n      </div>',
-    init: function init(container) {
-        v.el = (0, _jquery2.default)(container);
-    },
-    render: function render(n) {
-        if (v.el.children.length !== 0) {
-            v.el.empty();
-        }
-        (0, _jquery2.default)(v.html.replace('{{n}}', n)).appendTo(v.el);
-    }
-};
+// const v = new View({
+//     el: null,
+//     html: `
+//       <div>
+//             <div class="output">
+//                 <span id="number">{{n}}</span>
+//             </div>
+//             <div class="actions">
+//                 <button id="add1">+1</button>
+//                 <button id="minus1">-1</button>
+//                 <button id="mul2">*2</button>
+//                 <button id="divide2">÷2</button>
+//             </div>
+//       </div>`,
+//     render(n) {
+//         if (v.el.children.length !== 0) {
+//             v.el.empty()
+//         }
+//         $(v.html.replace('{{n}}', n))
+//             .appendTo(v.el)
+//     }
+// })
 
 // 其他都 c
 var c = {
+    v: null,
+    initV: function initV() {
+        this.v = new _view2.default({
+            el: c.container,
+            html: '\n              <div>\n                    <div class="output">\n                        <span id="number">{{n}}</span>\n                    </div>\n                    <div class="actions">\n                        <button id="add1">+1</button>\n                        <button id="minus1">-1</button>\n                        <button id="mul2">*2</button>\n                        <button id="divide2">\xF72</button>\n                    </div>\n              </div>',
+            render: function render(n) {
+                if (c.v.el.children.length !== 0) {
+                    c.v.el.empty();
+                }
+                (0, _jquery2.default)(c.v.html.replace('{{n}}', n)).appendTo(c.v.el);
+            }
+        });
+    },
     init: function init(container) {
-        v.init(container);
-        v.render(m.data.n); // view = render(data)
+        c.container = container;
+        c.initV();
         c.autoBindEvents();
         eventBus.on('m:updated', function () {
-            v.render(m.data.n);
+            c.v.render(m.data.n);
         });
+        c.v.render(m.data.n); // view = render(data)
     },
 
     events: {
@@ -11259,14 +11455,14 @@ var c = {
             var part1 = key.slice(0, spaceIndex);
             var part2 = key.slice(spaceIndex + 1);
             // console.log(part1, part2, value);
-            v.el.on(part1, part2, value);
+            c.v.el.on(part1, part2, value);
         }
     }
 };
 
 exports.default = c;
 
-/* 原代码
+/* 原代码 1
 
 import './app1.css'
 import $ from 'jquery'
@@ -11306,7 +11502,12 @@ $button4.on('click', () => {
 
 
  */
-},{"./app1.css":"1AQo","jquery":"or5c"}],"vZ5o":[function(require,module,exports) {
+},{"./app1.css":"app1.css","jquery":"..\\node_modules\\jquery\\dist\\jquery.js","./base/Model.js":"base\\Model.js","./base/view":"base\\view.js"}],"app2.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"app2.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11319,12 +11520,16 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _Model = require('./base/Model.js');
+
+var _Model2 = _interopRequireDefault(_Model);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var eventBus = (0, _jquery2.default)({});
 var localKey = 'app2.index';
 
-var m = {
+var m = new _Model2.default({
     localKey: 'app2.index',
     data: {
         index: parseInt(localStorage.getItem(localKey)) || 0
@@ -11334,15 +11539,37 @@ var m = {
         eventBus.trigger('m:updated');
         localStorage.setItem('index', m.data.index);
     }
-};
+});
+
+// const v = new View({
+//     el: null,
+//     html: `
+//      <div>
+//           <ol class="tab-bar">
+//               <li class="${index === 0 ? 'selected' : ''}" data-index = "0"><span>1111111</span></li>
+//               <li class="${index === 1 ? 'selected' : ''}" data-index = "1"><span>2222222</span></li>
+//           </ol>
+//           <ul class="tab-content">
+//               <li class="${index === 0 ? 'active' : ''}">content111</li>
+//               <li class="${index === 1 ? 'active' : ''}">content222</li>
+//           </ul>
+//       </div>
+//     `,
+//     render(index) {
+//         if (v.el.children.length !== 0) {
+//             v.el.empty()
+//         }
+//         $(v.html(index)).appendTo(v.el)
+//     }
+// })
 
 var v = {
     el: null,
     html: function html(index) {
         return '\n        <div>\n            <ol class="tab-bar">\n                <li class="' + (index === 0 ? 'selected' : '') + '" data-index = "0"><span>1111111</span></li>\n                <li class="' + (index === 1 ? 'selected' : '') + '" data-index = "1"><span>2222222</span></li>\n            </ol>\n            <ul class="tab-content">\n                <li class="' + (index === 0 ? 'active' : '') + '">content111</li>\n                <li class="' + (index === 1 ? 'active' : '') + '">content222</li>\n            </ul>\n        </div>';
     },
-    init: function init(container) {
-        v.el = (0, _jquery2.default)(container);
+    init: function init(el) {
+        v.el = (0, _jquery2.default)(el);
     },
     render: function render(index) {
         if (v.el.children.length !== 0) {
@@ -11384,7 +11611,7 @@ var c = {
 
 exports.default = c;
 
-/* 原代码
+/* 原代码 2
 
 import './app2.css'
 import $ from 'jquery'
@@ -11406,7 +11633,12 @@ $tabBar.children().eq(0).trigger('click')
 
 
  */
-},{"./app2.css":"1AQo","jquery":"or5c"}],"y8lT":[function(require,module,exports) {
+},{"./app2.css":"app2.css","jquery":"..\\node_modules\\jquery\\dist\\jquery.js","./base/Model.js":"base\\Model.js"}],"app3.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"app3.js":[function(require,module,exports) {
 'use strict';
 
 require('./app3.css');
@@ -11444,7 +11676,12 @@ $square.on('click', function () {
     }
     // $square.toggleClass('active')
 });
-},{"./app3.css":"1AQo","jquery":"or5c"}],"eWpN":[function(require,module,exports) {
+},{"./app3.css":"app3.css","jquery":"..\\node_modules\\jquery\\dist\\jquery.js"}],"app4.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\css-loader.js"}],"app4.js":[function(require,module,exports) {
 'use strict';
 
 require('./app4.css');
@@ -11466,7 +11703,7 @@ $circle.on('mouseenter', function () {
 }).on('mouseleave', function () {
     $circle.removeClass('active');
 });
-},{"./app4.css":"1AQo","jquery":"or5c"}],"epB2":[function(require,module,exports) {
+},{"./app4.css":"app4.css","jquery":"..\\node_modules\\jquery\\dist\\jquery.js"}],"main.js":[function(require,module,exports) {
 'use strict';
 
 require('./reset.css');
@@ -11501,5 +11738,175 @@ import './app3.js'
 import './app4.js'
 
  */
-},{"./reset.css":"1AQo","./global.css":"1AQo","./app1.js":"U+s5","./app2.js":"vZ5o","./app3.js":"y8lT","./app4.js":"eWpN"}]},{},["epB2"], null)
-//# sourceMappingURL=main.80a05d7e.map
+},{"./reset.css":"reset.css","./global.css":"global.css","./app1.js":"app1.js","./app2.js":"app2.js","./app3.js":"app3.js","./app4.js":"app4.js"}],"..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\hmr-runtime.js":[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
+
+var OldModule = module.bundle.Module;
+
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = '' || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '14727' + '/');
+  ws.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      console.clear();
+
+      data.assets.forEach(function (asset) {
+        hmrApply(global.parcelRequire, asset);
+      });
+
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          hmrAccept(global.parcelRequire, asset.id);
+        }
+      });
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+
+      removeErrorOverlay();
+
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
+  };
+}
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function createErrorOverlay(data) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID;
+
+  // html encode message and stack trace
+  var message = document.createElement('div');
+  var stackTrace = document.createElement('pre');
+  message.innerText = data.error.message;
+  stackTrace.innerText = data.error.stack;
+
+  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+
+  return overlay;
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAccept(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAccept(bundle.parent, id);
+  }
+
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+  if (cached) {
+    cached.hot.data = bundle.hotData;
+  }
+
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      cb();
+    });
+    return true;
+  }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAccept(global.parcelRequire, id);
+  });
+}
+},{}]},{},["..\\..\\..\\..\\..\\..\\..\\AppData\\Roaming\\npm\\node_modules\\parcel\\src\\builtins\\hmr-runtime.js","main.js"], null)
+//# sourceMappingURL=/main.4d39316f.map

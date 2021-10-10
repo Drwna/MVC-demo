@@ -1,11 +1,14 @@
 import './app1.css'
 import $ from 'jquery'
+import Model from "./base/Model.js"
+import View from "./base/view";
 
 const eventBus = $({})
 // console.log(eventBus.on);
 // console.log(eventBus.trigger);
 // 视图相关 都放到 m
-const m = {
+
+const m = new Model({
     data: {
         n: parseInt(localStorage.getItem('n'))
     },
@@ -14,44 +17,69 @@ const m = {
         eventBus.trigger('m:updated')
         localStorage.setItem('n', m.data.n)
     }
-}
+})
+
+console.dir(m);
 
 // 数据相关 都放到 v
-const v = {
-    el: null,
-    html: `
-      <div>
-            <div class="output">
-                <span id="number">{{n}}</span>
-            </div>
-            <div class="actions">
-                <button id="add1">+1</button>
-                <button id="minus1">-1</button>
-                <button id="mul2">*2</button>
-                <button id="divide2">÷2</button>
-            </div>
-      </div>`,
-    init(container) {
-        v.el = $(container)
-    },
-    render(n) {
-        if (v.el.children.length !== 0) {
-            v.el.empty()
-        }
-        $(v.html.replace('{{n}}', n))
-            .appendTo(v.el)
-    }
-}
+// const v = new View({
+//     el: null,
+//     html: `
+//       <div>
+//             <div class="output">
+//                 <span id="number">{{n}}</span>
+//             </div>
+//             <div class="actions">
+//                 <button id="add1">+1</button>
+//                 <button id="minus1">-1</button>
+//                 <button id="mul2">*2</button>
+//                 <button id="divide2">÷2</button>
+//             </div>
+//       </div>`,
+//     render(n) {
+//         if (v.el.children.length !== 0) {
+//             v.el.empty()
+//         }
+//         $(v.html.replace('{{n}}', n))
+//             .appendTo(v.el)
+//     }
+// })
 
 // 其他都 c
 const c = {
+    v: null,
+    initV() {
+        this.v = new View({
+            el: c.container,
+            html: `
+              <div>
+                    <div class="output">
+                        <span id="number">{{n}}</span>
+                    </div>
+                    <div class="actions">
+                        <button id="add1">+1</button>
+                        <button id="minus1">-1</button>
+                        <button id="mul2">*2</button>
+                        <button id="divide2">÷2</button>
+                    </div>
+              </div>`,
+            render(n) {
+                if (c.v.el.children.length !== 0) {
+                    c.v.el.empty()
+                }
+                $(c.v.html.replace('{{n}}', n))
+                    .appendTo(c.v.el)
+            }
+        })
+    },
     init(container) {
-        v.init(container)
-        v.render(m.data.n) // view = render(data)
+        c.container = container
+        c.initV()
         c.autoBindEvents()
         eventBus.on('m:updated', () => {
-            v.render(m.data.n)
+            c.v.render(m.data.n)
         })
+        c.v.render(m.data.n) // view = render(data)
     },
     events: {
         'click #add1': 'add',
@@ -78,7 +106,7 @@ const c = {
             const part1 = key.slice(0, spaceIndex)
             const part2 = key.slice(spaceIndex + 1)
             // console.log(part1, part2, value);
-            v.el.on(part1, part2, value)
+            c.v.el.on(part1, part2, value)
         }
     },
 }
@@ -87,13 +115,7 @@ const c = {
 export default c
 
 
-
-
-
-
-
-
-/* 原代码
+/* 原代码 1
 
 import './app1.css'
 import $ from 'jquery'

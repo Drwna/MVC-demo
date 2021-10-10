@@ -1,10 +1,11 @@
 import './app2.css'
 import $ from 'jquery'
+import Model from "./base/Model.js"
 
 const eventBus = $({})
 const localKey = 'app2.index'
 
-const m = {
+const m = new Model({
     localKey: 'app2.index',
     data: {
         index: parseInt(localStorage.getItem(localKey)) || 0
@@ -14,7 +15,29 @@ const m = {
         eventBus.trigger('m:updated')
         localStorage.setItem('index', m.data.index)
     }
-}
+})
+
+// const v = new View({
+//     el: null,
+//     html: `
+//      <div>
+//           <ol class="tab-bar">
+//               <li class="${index === 0 ? 'selected' : ''}" data-index = "0"><span>1111111</span></li>
+//               <li class="${index === 1 ? 'selected' : ''}" data-index = "1"><span>2222222</span></li>
+//           </ol>
+//           <ul class="tab-content">
+//               <li class="${index === 0 ? 'active' : ''}">content111</li>
+//               <li class="${index === 1 ? 'active' : ''}">content222</li>
+//           </ul>
+//       </div>
+//     `,
+//     render(index) {
+//         if (v.el.children.length !== 0) {
+//             v.el.empty()
+//         }
+//         $(v.html(index)).appendTo(v.el)
+//     }
+// })
 
 const v = {
     el: null,
@@ -31,8 +54,8 @@ const v = {
             </ul>
         </div>`
     },
-    init(container) {
-        v.el = $(container)
+    init(el) {
+        v.el = $(el)
     },
     render(index) {
         if (v.el.children.length !== 0) {
@@ -73,7 +96,7 @@ const c = {
 
 export default c
 
-/* 原代码
+/* 原代码 2
 
 import './app2.css'
 import $ from 'jquery'
