@@ -1,8 +1,10 @@
 import './app2.css'
 import $ from 'jquery'
 import Model from "./base/Model.js"
+import View from "./base/view.js";
+import EventBus from "./base/EventBus";
 
-const eventBus = $({})
+const eventBus = new EventBus()
 const localKey = 'app2.index'
 
 const m = new Model({
@@ -45,11 +47,14 @@ const v = new View({
 
 /*-----------合并 VC------------- */
 
+const init = (el) => {
 
-const view = {
-    el: null,
-    html: (index) => {
-        return `
+    new View({
+        el: el,
+        data: m.data,
+        eventBus: eventBus,
+        html: (index) => {
+            return `
         <div>
             <ol class="tab-bar">
                 <li class="${index === 0 ? 'selected' : ''}" data-index = "0"><span>1111111</span></li>
@@ -60,43 +65,25 @@ const view = {
                 <li class="${index === 1 ? 'active' : ''}">content222</li>
             </ul>
         </div>`
-    },
-    render(index) {
-        if (view.el.children.length !== 0) {
-            view.el.empty()
+        },
+        render(data) {
+            const index = data.index
+            if (this.el.children.length !== 0) {
+                this.el.empty()
+            }
+            $(this.html(index)).appendTo(this.el)
+        },
+        events: {
+            'click .tab-bar li': 'x'
+        },
+        x(e) {
+            const index = parseInt(e.currentTarget.dataset.index)
+            m.update({index: index})
         }
-        $(view.html(index)).appendTo(view.el)
-    },
-    init(container) {
-        view.el = $(container)
-
-        view.render(m.data.index) // view = render(data)
-        view.autoBindEvents()
-        eventBus.on('m:updated', () => {
-            view.render(m.data.index)
-        })
-    },
-    events: {
-        'click .tab-bar li': 'x'
-    },
-    x(e) {
-        const index = parseInt(e.currentTarget.dataset.index)
-        m.update({index: index})
-    },
-    autoBindEvents() {
-        // 表驱动编程
-        for (let key in view.events) {
-            const value = view[view.events[key]]
-            const spaceIndex = key.indexOf(' ')
-            const part1 = key.slice(0, spaceIndex)
-            const part2 = key.slice(spaceIndex + 1)
-            // console.log(part1, part2, value);
-            view.el.on(part1, part2, value)
-        }
-    },
+    })
 }
 
-export default view
+export default init
 
 /* 原代码 2
 

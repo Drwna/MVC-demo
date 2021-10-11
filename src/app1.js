@@ -1,9 +1,11 @@
 import './app1.css'
 import $ from 'jquery'
 import Model from "./base/Model.js"
+import View from "./base/view";
+import EventBus from "./base/EventBus.js";
 // import View from "./base/view";
 
-const eventBus = $({})
+const eventBus = new EventBus()
 // console.log(eventBus.on);
 // console.log(eventBus.trigger);
 // 视图相关 都放到 m
@@ -56,82 +58,78 @@ const v = new View({
 
 const m = new Model({
     data: {
-        n: parseInt(localStorage.getItem('n'))
+        n: parseFloat(localStorage.getItem('n'))
     },
     update(data) {
         Object.assign(m.data, data)
-        eventBus.trigger('m:updated')
+        m.trigger('m:updated')
         localStorage.setItem('n', m.data.n)
     }
 })
 
 
 // 数据相关 都放到 v
-const v = {}
 
 
 // 其他都 c
-const view = {
-    el: null,
-    html: `
-      <div>
-            <div class="output">
-                <span id="number">{{n}}</span>
-            </div>
-            <div class="actions">
-                <button id="add1">+1</button>
-                <button id="minus1">-1</button>
-                <button id="mul2">*2</button>
-                <button id="divide2">÷2</button>
-            </div>
-      </div>`,
-    init(container) {
-        view.el = $(container)
-        view.render(m.data.n) // view = render(data)
-        view.autoBindEvents()
-        eventBus.on('m:updated', () => {
-            view.render(m.data.n)
-        })
-    },
-    render(n) {
-        if (view.el.children.length !== 0) {
-            view.el.empty()
-        }
-        $(view.html.replace('{{n}}', n))
-            .appendTo(view.el)
-    },
-    events: {
-        'click #add1': 'add',
-        'click #minus1': 'minus',
-        'click #mul2': 'mul',
-        'click #divide2': 'divide'
-    },
-    add() {
-        m.update({n: m.data.n + 1})
-    },
-    minus() {
-        m.update({n: m.data.n - 1})
-    },
-    mul() {
-        m.update({n: m.data.n * 2})
-    },
-    divide() {
-        m.update({n: m.data.n / 2})
-    },
-    autoBindEvents() {
-        for (let key in view.events) {
-            const value = view[view.events[key]]
-            const spaceIndex = key.indexOf(' ')
-            const part1 = key.slice(0, spaceIndex)
-            const part2 = key.slice(spaceIndex + 1)
-            // console.log(part1, part2, value);
-            view.el.on(part1, part2, value)
-        }
-    },
+const init = (el) => {
+    new View({
+        el: el,
+        data: m.data,
+        eventBus: eventBus,
+        html: `
+          <div>
+                <div class="output">
+                    <span id="number">{{n}}</span>
+                </div>
+                <div class="actions">
+                    <button id="add1">+1</button>
+                    <button id="minus1">-1</button>
+                    <button id="mul2">*2</button>
+                    <button id="divide2">÷2</button>
+                </div>
+          </div>`,
+
+        render(data) {
+            const n = data.n
+            if (this.el.children.length !== 0) {
+                this.el.empty()
+            }
+            $(this.html.replace('{{n}}', n))
+                .appendTo(this.el)
+        },
+        events: {
+            'click #add1': 'add',
+            'click #minus1': 'minus',
+            'click #mul2': 'mul',
+            'click #divide2': 'divide'
+        },
+        add() {
+            m.update({n: m.data.n + 1})
+        },
+        minus() {
+            m.update({n: m.data.n - 1})
+        },
+        mul() {
+            m.update({n: m.data.n * 2})
+        },
+        divide() {
+            m.update({n: m.data.n / 2})
+        },
+        autoBindEvents() {
+            for (let key in this.events) {
+                const value = this[this.events[key]]
+                const spaceIndex = key.indexOf(' ')
+                const part1 = key.slice(0, spaceIndex)
+                const part2 = key.slice(spaceIndex + 1)
+                // console.log(part1, part2, value);
+                this.el.on(part1, part2, value)
+            }
+        },
+    })
 }
 
-
-export default view
+export default init
 
 
 /* 原代码
